@@ -48,7 +48,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/signup")
     public String addUser(@RequestBody User user) {
         return userService.addUser(user);
     }

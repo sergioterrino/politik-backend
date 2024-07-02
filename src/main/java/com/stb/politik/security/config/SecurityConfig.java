@@ -1,7 +1,5 @@
 package com.stb.politik.security.config;
 
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,9 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.stb.politik.security.jwt.JwtFilter;
 import com.stb.politik.user.UserService;
@@ -48,7 +43,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/users/login", "api/users/username", "api/users/phone", "api/users/email")
+                        .requestMatchers("/api/users/login", "/api/users/signup", "api/users/username", "api/users/phone", "api/users/email")
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
