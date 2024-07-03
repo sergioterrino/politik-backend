@@ -3,6 +3,7 @@ package com.stb.politik.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,7 +40,7 @@ public class UserService implements UserDetailsService {
     // return "User added successfully";
     // }
 
-    public String addUser(User user) {
+    public ResponseEntity<String> addUser(User user) {
         if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
@@ -52,7 +53,8 @@ public class UserService implements UserDetailsService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return "User added successfully";
+        // return "User added successfully";
+        return ResponseEntity.ok("  User added successfully");
     }
 
     public List<User> getAllUsers() {
