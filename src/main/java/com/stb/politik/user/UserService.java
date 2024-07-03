@@ -1,6 +1,8 @@
 package com.stb.politik.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,7 @@ public class UserService implements UserDetailsService {
     // return "User added successfully";
     // }
 
-    public ResponseEntity<String> addUser(User user) {
+    public ResponseEntity<Map<String, String>> addUser(User user) {
         if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
@@ -54,7 +56,9 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         // return "User added successfully";
-        return ResponseEntity.ok("  User added successfully");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "User added successfully");
+        return ResponseEntity.ok(response);
     }
 
     public List<User> getAllUsers() {

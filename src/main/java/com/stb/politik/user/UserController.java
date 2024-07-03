@@ -1,6 +1,7 @@
 package com.stb.politik.user;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
     
