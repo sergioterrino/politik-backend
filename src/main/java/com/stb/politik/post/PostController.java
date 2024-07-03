@@ -63,7 +63,7 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('admin') or hasAuthority('politik')")
+    // @PreAuthorize("hasAuthority('admin') or hasAuthority('politic')")
     public ResponseEntity<?> createPost(@RequestBody PostDTO postDTO) {
 
         Post post = new Post();
@@ -113,7 +113,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete/{postId}")
-    @PreAuthorize("hasAuthority('admin') or hasAuthority('politik')")
+    // @PreAuthorize("hasAuthority('admin') or hasAuthority('politic')")
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         log.info("PostController - deletePost() - postId" + postId);
         // Busco el post en la db

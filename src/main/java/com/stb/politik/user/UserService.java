@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
     // @Autowired
     // private UserRepository userRepository;
@@ -33,7 +33,23 @@ public class UserService implements UserDetailsService{
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
     }
 
+    // public String addUser(User user) {
+    // user.setPassword(passwordEncoder.encode(user.getPassword()));
+    // userRepository.save(user);
+    // return "User added successfully";
+    // }
+
     public String addUser(User user) {
+        if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already in use");
+        }
+        if (user.getPhone() != null && userRepository.existsByPhone(user.getPhone())) {
+            throw new RuntimeException("Phone number already in use");
+        }
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new RuntimeException("Username already in use");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return "User added successfully";
@@ -58,5 +74,5 @@ public class UserService implements UserDetailsService{
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-    
+
 }

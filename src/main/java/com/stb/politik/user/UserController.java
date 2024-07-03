@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/getUsers/{id}")
-    @PreAuthorize("hasAuthority('citizen')")
+    // @PreAuthorize("hasAuthority('citizen')")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
