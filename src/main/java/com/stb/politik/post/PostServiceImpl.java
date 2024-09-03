@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.stb.politik.dto.PostDTO;
+
 @Service
 public class PostServiceImpl implements PostService{
 
@@ -35,6 +37,15 @@ public class PostServiceImpl implements PostService{
     @Override
     public void deletePost(Long postId) {
         this.postRepository.deleteById(postId);
+    }
+
+    @Override
+    public void updatePost(Long postId, PostDTO postDTO){
+        Post post = this.postRepository.findById(postId).orElse(null);
+        if(post != null){
+            post.setText(postDTO.getText()); // de momento solo se actualiza el texto
+            this.postRepository.save(post);
+        }
     }
     
 }

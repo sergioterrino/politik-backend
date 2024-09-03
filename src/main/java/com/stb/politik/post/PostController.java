@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/posts")
@@ -85,7 +88,7 @@ public class PostController {
             String username = authentication.getName();
             log.info("PostController - createPost() - Username auth -> " + username);
 
-            // Busca al usuario en tu base de datos
+            // Busco al usuario en la db
             Optional<User> optionalUser = userService.getUserByUsername(username);
 
             // Verifico si el usuario existe en la base de datos
@@ -138,6 +141,19 @@ public class PostController {
         } else {
             throw new PostNotFoundException("Post not found");
         }
+    }
+
+    @PutMapping("/update/{postId}")
+    public ResponseEntity<?> updatePost(@PathVariable Long postId, @RequestBody PostDTO postDTO) {
+        //check if exists this post
+        Post post = this.postService.getPostById(postId);
+        if(post != null){
+            this.postService.updatePost(postId, postDTO);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        // devolver una respuesta con el post actualizado
+        return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
 }
